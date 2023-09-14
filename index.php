@@ -23,21 +23,23 @@ if ($part[1] != 'courrier')
     return http_response_code(404);
 
 $id = null; 
+$path = null; 
 if (array_key_exists(2, $part)) {
     if (is_numeric($part[2])) {
         $id = $part[2];
     } else {
         if (is_string($part[2])) {
-            $name = $part[2];
+            $path = $part[2];
         }
     }
 }
 
-$database = new Database("localhost", "administrator", "system", "demo","5785");
+ini_set("date.timezone", "Africa/Douala");
 
-$product = new Courrier($database);
+$database = new Database("localhost", "root", "12345", "demo");
 
-$controller = new Controller($product);
+$courrier = new Courrier($database);
 
-$controller->processRequest($method, $id);
-//merci
+$controller = new Controller($courrier);
+
+$controller->processRequest($method, $id, $path);
